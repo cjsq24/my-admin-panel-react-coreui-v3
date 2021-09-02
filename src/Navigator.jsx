@@ -16,11 +16,11 @@ const Navigator = () => {
       <Router>
          <Switch>
             <PublicRoute path='/register' component={Register} />
-            
+
             {routes.map((route, key) => {
-               if (route.type == 'public') {
+               if (route.type === 'public') {
                   return <PublicRoute key={key} {...route} />
-               } else if (route.type == 'private') {
+               } else if (route.type === 'private') {
                   return <PrivateRoute key={key} {...route} />
                } else {
                   return <Route key={key} {...route} />

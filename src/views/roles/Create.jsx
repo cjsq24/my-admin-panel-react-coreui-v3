@@ -1,32 +1,27 @@
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import userActions from '../../redux/user/action'
 import roleActions from '../../redux/role/action'
-import UserForm from './Form';
+import RoleForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function UserCreate() {
+export default function RoleCreate() {
    const dispatch = useDispatch()
    const history = useHistory()
    const { register, handleSubmit, formState: {errors} } = useForm();
 
-   useEffect(() => {
-      dispatch(roleActions.list())
-   }, [dispatch]);
+   const onSubmit = async (values, modules) => {
+      const res = await dispatch(roleActions.create({...values, modules}))
 
-   const onSubmit = async (values) => {
-      const res = await dispatch(userActions.create(values))
       if (res.success) {
-         history.push('/users')
+         history.push('/roles')
       }
    }
 
    return (
-      <CardSimple title='User Create'>
-         <UserForm
+      <CardSimple title='Create Role'>
+         <RoleForm
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             register={register}

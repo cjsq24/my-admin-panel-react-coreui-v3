@@ -5,6 +5,8 @@ import note from './note/reducer'
 import country from './country/reducer'
 import state from './state/reducer'
 import city from './city/reducer'
+import menu from './menu/reducer'
+import role from './role/reducer'
 
 const rootReducer = combineReducers({
    sidebar,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
    note,
    country,
    state,
-   city
+   city,
+   menu,
+   role
 })
  
 export default rootReducer

@@ -5,7 +5,7 @@ import userActions from '../../redux/user/action'
 import CardSimple from '../../components/cards/CardSimple';
 import DataTable from '../../components/DataTable';
 
-const fields = ['id', 'name', 'email']
+const fields = ['id', 'name', 'email', 'role']
 
 export default function Users() {
    const dispatch = useDispatch()
@@ -22,7 +22,10 @@ export default function Users() {
             fields={fields}
             actions={userActions}
             url='users'
-            scopedSlots={{ 'name': (item) => ( <td>{`${item.name} ${item.last_name}`}</td> ) }}
+            scopedSlots={{ 
+               'name': (item) => ( <td>{`${item.name} ${item.last_name}`}</td> ),
+               'role': (item) => ( <td>{item?.role?.name}</td> ) 
+            }}
          />
       </CardSimple>
    );

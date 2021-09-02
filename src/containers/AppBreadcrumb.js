@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom'
 import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
-import { cibSkillshare } from '@coreui/icons'
+//import { cibSkillshare } from '@coreui/icons'
 
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname

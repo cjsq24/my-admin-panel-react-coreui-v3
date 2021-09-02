@@ -3,44 +3,39 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import userActions from '../../redux/user/action'
 import roleActions from '../../redux/role/action'
-import UserForm from './Form';
+import RoleForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function UserUpdate() {
+export default function RoleUpdate() {
    const dispatch = useDispatch()
    const history = useHistory()
    const location = useLocation()
    const { data } = location.state || {}
-   const { register, handleSubmit, formState: {errors}, setValue } = useForm({ defaultValues: data ? data : {} });
+   const { register, handleSubmit, formState: {errors} } = useForm({ defaultValues: data ? data : {} });
 
    useEffect(() => {
       if (!data) {
-         history.push('/users')
+         history.push('/roles')
       }
-      const getRoles = async () => {
-         await dispatch(roleActions.list())
-         setValue('role_id', data?.role_id)
-      }
-      getRoles() //Llenamos el select de países y seteamos role_id si estamos actualizando
    }, [dispatch]);
 
-   const onSubmit = async (values) => {
-      const res = await dispatch(userActions.update({...values, id: data.id}))
+   const onSubmit = async (values, modules) => {
+      const res = await dispatch(roleActions.update({...values, modules, id: data.id}))
       if (res.success) {
-         history.push('/users')
+         history.push('/roles')
       }
    }
 
    return (
-      <CardSimple title='User Update'>
-         <UserForm
+      <CardSimple title='Update Role'>
+         <RoleForm
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             register={register}
             errors={errors}
             action='update'
+            data={data ? data : {}}
          />
       </CardSimple>
    );

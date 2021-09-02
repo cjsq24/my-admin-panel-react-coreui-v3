@@ -35,10 +35,16 @@ axios.interceptors.response.use(
 
 axios.defaults.params = {};
 
-/*axios.interceptors.request.use(async function (config) {
+axios.interceptors.request.use(async function (config) {
+	const user = await JSON.parse(window.localStorage.getItem('cs_user'))
+	if (user?.token) {
+		config.headers.Authorization = `Bearer ${user.token}`
+	} else {
+		console.log('no hay token')
+	}
 	return config;
 }, function (error) {
 	return Promise.reject(error);
-});*/
+});
 
 export default axios;

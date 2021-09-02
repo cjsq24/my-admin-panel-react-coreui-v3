@@ -1,7 +1,7 @@
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { CButton, CCard, CCardBody, CCardFooter, CCol, CContainer, CForm, CInput, CInputGroup, CInputGroupPrepend, CInputGroupText, CRow } from '@coreui/react'
+import { CButton, CCard, CCardBody, CCardFooter, CCol, CContainer, CForm, CInputGroup, CInputGroupPrepend, CInputGroupText, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import InputT from '../components/inputs/InputT'

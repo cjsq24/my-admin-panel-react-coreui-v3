@@ -14,12 +14,7 @@ export default function CityUpdate() {
    const history = useHistory()
    const location = useLocation()
    const { data } = location.state || {}
-   const { register, handleSubmit, formState: {errors}, setValue } = useForm({
-      defaultValues: {
-         name: data?.name,
-         code: data?.code
-      }
-   });
+   const { register, handleSubmit, formState: {errors}, setValue } = useForm({ defaultValues: data ? data : {} });
 
    useEffect(() => {
       if (!data) {

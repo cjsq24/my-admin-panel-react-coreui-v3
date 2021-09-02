@@ -1,20 +1,21 @@
 import { Route, Redirect } from 'react-router-dom';
 import useAuth from '../auth/useAuth';
 import TheLayout from '../containers/TheLayout';
-//import AdminPanel from '../containers/layouts/AdminPanel';
 
-export default function PrivateRoute({ component: Component, ...rest }) {
+export default function PrivateRoute({ component: Component, ...props }) {
+   const path = props.path.replace('/', '')
    const auth = useAuth()
 
    return (
-      <Route {...rest}>
+      <Route {...props}>
          {auth.isLogged() ? (
-            <TheLayout>
-               <Component />
-            </TheLayout>
-         ) : (
-            <Redirect to='/login' />
-         )}
+               <TheLayout path={path}>
+                  <Component />
+               </TheLayout>
+            ) : (
+               <Redirect to='/login' />
+            )
+         }
       </Route>
    );
 }

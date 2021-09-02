@@ -33,7 +33,6 @@ const actions = {
       return data
 	},
 
-
    register: (_data) => async (dispatch) => {
       await loadingAlert();
       await dispatch({ type: users.LOADING_USER })

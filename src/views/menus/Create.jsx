@@ -1,32 +1,26 @@
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import userActions from '../../redux/user/action'
-import roleActions from '../../redux/role/action'
-import UserForm from './Form';
+import menuActions from '../../redux/menu/action'
+import MenuForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function UserCreate() {
+export default function MenuCreate() {
    const dispatch = useDispatch()
    const history = useHistory()
    const { register, handleSubmit, formState: {errors} } = useForm();
 
-   useEffect(() => {
-      dispatch(roleActions.list())
-   }, [dispatch]);
-
    const onSubmit = async (values) => {
-      const res = await dispatch(userActions.create(values))
+      const res = await dispatch(menuActions.create(values))
       if (res.success) {
-         history.push('/users')
+         history.push('/menus')
       }
    }
 
    return (
-      <CardSimple title='User Create'>
-         <UserForm
+      <CardSimple title='Create Menu'>
+         <MenuForm
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             register={register}

@@ -20,6 +20,12 @@ const CityUpdate = React.lazy(() => import('./views/cities/Update'))
 const Users = React.lazy(() => import('./views/users'))
 const UserCreate = React.lazy(() => import('./views/users/Create'))
 const UserUpdate = React.lazy(() => import('./views/users/Update'))
+const Menus = React.lazy(() => import('./views/menus'))
+const MenuCreate = React.lazy(() => import('./views/menus/Create'))
+const MenuUpdate = React.lazy(() => import('./views/menus/Update'))
+const Roles = React.lazy(() => import('./views/roles'))
+const RoleCreate = React.lazy(() => import('./views/roles/Create'))
+const RoleUpdate = React.lazy(() => import('./views/roles/Update'))
 
 const routes = [
   { path: '/login', name: 'Login', component: Login, type: 'public' },
@@ -45,6 +51,14 @@ const routes = [
   { path: '/users', name: 'Users', exact: true, component: Users, type: 'private' },
   { path: '/users/create', name: 'Create', component: UserCreate, type: 'private' },
   { path: '/users/update', name: 'Update', component: UserUpdate, type: 'private' },
+  //MENUS
+  { path: '/menus', name: 'Menus', exact: true, component: Menus, type: 'private' },
+  { path: '/menus/create', name: 'Create', component: MenuCreate, type: 'private' },
+  { path: '/menus/update', name: 'Update', component: MenuUpdate, type: 'private' },
+  //ROLES
+  { path: '/roles', name: 'Roles', exact: true, component: Roles, type: 'private' },
+  { path: '/roles/create', name: 'Create', component: RoleCreate, type: 'private' },
+  { path: '/roles/update', name: 'Update', component: RoleUpdate, type: 'private' },
   
   { path: '*', component: Error404 }
 ]

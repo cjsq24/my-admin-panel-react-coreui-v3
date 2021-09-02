@@ -1,12 +1,7 @@
 import {
-   CButton,
    CCard,
    CCardBody,
-   CCardFooter,
-   CCardHeader,
-   CCardImage,
-   CCardText,
-   CCardTitle
+   CCardHeader
  } from '@coreui/react'
 
 export default function CardSimple(props) {

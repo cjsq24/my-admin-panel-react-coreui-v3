@@ -5,6 +5,7 @@ import {
   TheFooter,
   TheHeader
 } from './index'
+import useAuth from '../auth/useAuth';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -14,6 +15,7 @@ const loading = (
 )
 
 const TheLayout = (props) => {
+  const auth = useAuth()
 
   return (
     <div className="c-app c-default-layout">
@@ -21,9 +23,11 @@ const TheLayout = (props) => {
       <div className="c-wrapper">
         <TheHeader/>
         <div className="c-body">
-          <Suspense fallback={loading}>
-            <TheContent {...props} />
-          </Suspense>
+          {auth.modules.includes(props.path.split('/')[0]) &&
+            <Suspense fallback={loading}>
+              <TheContent {...props} />
+            </Suspense>
+          }
         </div>
         <TheFooter/>
       </div>
