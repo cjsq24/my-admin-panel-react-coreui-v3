@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import stateActions from '../../redux/state/action'
 import CardSimple from '../../components/cards/CardSimple';
 import DataTable from '../../components/DataTable';
+import StateSearch from './Search'
 
 const fields = ['id', 'name', 'code', 'country']
 
@@ -11,18 +12,28 @@ export default function States() {
    const dispatch = useDispatch()
    const state = useSelector(store => store.state)
 
+   const [modal, setModal] = useState(false);
+   const openSearch = () => {
+      setModal(true)
+   }
+   const closeSearch = () => {
+      setModal(false)
+   }
+
    useEffect(() => {
       dispatch(stateActions.list())
    }, [dispatch]);
 
    return (
       <CardSimple title='States'>
+         <StateSearch modal={modal} closeSearch={closeSearch} />
          <DataTable
             items={state}
             fields={fields}
             actions={stateActions}
             url='states'
             scopedSlots={{ 'country': (item) => ( <td>{item?.country?.name}</td> ) }}
+            showModal={openSearch}
          />
       </CardSimple>
    );

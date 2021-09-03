@@ -6,14 +6,16 @@ export default function InputT({type, name, placeholder, register, validation, e
             id={name} 
             className="form-control" 
             placeholder={placeholder}
-            {...register(name, validation[name])}
+            {...register(name, validation ? validation[name] : undefined)}
          />
-         <span className='text-danger'>
-            {errors && errors[name] && errors[name].message &&
-               errors[name].message
-            }
-            {/*errors[name].message*/}
-         </span>
+         {errors &&
+            <span className='text-danger'>
+               {errors && errors[name] && errors[name].message &&
+                  errors[name].message
+               }
+               {/*errors[name].message*/}
+            </span>
+         }
       </>
    );
 }

@@ -5,18 +5,29 @@ import { countries } from '../actionTypes'
 const base = 'countries'
 
 const actions = {
-   list: () => async (dispatch, getState) => {
+   list: (_data) => async (dispatch, getState) => {
       //Consultamos el estado de country.list, para saber si está vacío
       //Para que no esté consultando al servidor innecesariamente
       //Ya que el useEffect se ejecuta cada vez que se hace focus a la vista
       const {country} = getState()
-      if (!country.listFetched) {
-         await dispatch({ type: countries.LIST_LOADING_COUNTRY })
-         const {data} = await axios.get(`/${base}/list`)
+      if (!country.listFetched || _data) {
+         dispatch({ type: countries.LIST_LOADING_COUNTRY })
+         const {data} = await axios.get(`/${base}/list`, {params: {where: _data}})
          await dispatch({ type: countries.LIST_COUNTRY, payload: data })
          await showAlert(data.message)
       }
    },
+
+   listAll: () => async (dispatch, getState) => {
+      const {country} = getState()
+      if (!country.listAllFetched) {
+         dispatch({ type: countries.LIST_ALL_LOADING_COUNTRY })
+         const {data} = await axios.get(`/${base}/list`)
+         await dispatch({ type: countries.LIST_ALL_COUNTRY, payload: data })
+         await showAlert(data.message)
+      }
+   },
+
 	create: (_data) => async (dispatch) => {
       await loadingAlert();
       await dispatch({ type: countries.LOADING_COUNTRY })

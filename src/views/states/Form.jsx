@@ -38,9 +38,9 @@ export default function StateForm(props) {
             <CCol className={colInput}>
                <SelectGroup 
                   name='country_id' 
-                  data={country.list} 
+                  data={country.listAll} 
                   setLoading={true} 
-                  loading={country.listLoading} 
+                  loading={country.listAllLoading} 
                   fields={{value: 'id', string: 'name'}}
                   register={props.register} 
                   validations={validations} 

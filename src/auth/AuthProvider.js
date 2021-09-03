@@ -13,7 +13,7 @@ export default function AuthProvider({children}) {
       const getModules = async () => {
          if (user) {
             const { modules: modulesToken } = await jwt.verify(user?.token, process.env.REACT_APP_SECRET_TOKEN)
-            console.log('modules', JSON.parse(modulesToken))
+            //console.log('modules', JSON.parse(modulesToken))
             if (modules) {
                setModules([...JSON.parse(modulesToken), 'dashboard', ''])
             } else {

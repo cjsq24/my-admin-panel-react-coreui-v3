@@ -4,6 +4,7 @@ import { CDataTable, CBadge, CButton, CCol, CRow } from '@coreui/react';
 
 export default function DataTable(props) {
    const fields = [
+      '#',
       ...props.fields,
       { key: 'status', _style: {} },
       {
@@ -42,18 +43,19 @@ export default function DataTable(props) {
    return (
       <CCol>
          <CRow>
-            <CCol className='d-flex justify-content-end'>
+            <CCol className='d-flex justify-content-end mb-2'>
+               <CButton size='md' color='secondary' className='ml-1 d-flex justify-content' onClick={props.showModal}>
+                  B
+               </CButton>
                <CButton size='md' color='success' className='ml-1 d-flex justify-content' onClick={showCreate}>
-                  Add
+                  A
                </CButton>
             </CCol>
          </CRow>
+
          <CDataTable
             items={props.items.list}
             fields={fields}
-            columnFilter
-            tableFilter
-            itemsPerPageSelect
             itemsPerPage={10}
             hover
             sorter
@@ -63,6 +65,10 @@ export default function DataTable(props) {
             responsive
             scopedSlots={{
                ...props?.scopedSlots,
+               '#': 
+                  (item, key) => (
+                     <td>{key + 1}</td>
+                  ),
                'status':
                   (item) => (
                      <td>

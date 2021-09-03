@@ -14,7 +14,7 @@ export default function StateCreate() {
    const { register, handleSubmit, formState: {errors} } = useForm();
 
    useEffect(() => {
-      dispatch(countryActions.list())
+      dispatch(countryActions.listAll())
    }, [dispatch]);
 
    const onSubmit = async (values) => {

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CForm, CFormGroup, CCol, CLabel } from '@coreui/react';
 import InputT from '../../components/inputs/InputT'
@@ -16,8 +17,13 @@ export default function CityForm(props) {
    const state = useSelector(store => store.state)
    const country = useSelector(store => store.country)
 
+   const [states, setStates] = useState([])
+
    const getStates = async (country_id) => {
-      dispatch(stateActions.filter({ country_id: country_id }))
+      const res = await dispatch(stateActions.filter({ country_id: country_id }))
+      if (res?.success) {
+         setStates(res.values)
+      }
    }
 
    return (
@@ -49,10 +55,10 @@ export default function CityForm(props) {
                   setLoading={true} 
                   loading={country.listLoading} 
                   fields={{value: 'id', string: 'name'}}
+                  onChange={getStates}
                   register={props.register} 
                   validations={validations} 
                   errors={props.errors}
-                  onChange={getStates}
                />
             </CCol>
          </CFormGroup>
@@ -63,7 +69,7 @@ export default function CityForm(props) {
             <CCol className={colInput}>
                <SelectGroup 
                   name='state_id' 
-                  data={state.filter} 
+                  data={states} 
                   setLoading={true} 
                   loading={state.filterLoading} 
                   fields={{value: 'id', string: 'name'}}

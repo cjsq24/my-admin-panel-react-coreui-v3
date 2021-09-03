@@ -5,11 +5,11 @@ import { cities } from '../actionTypes'
 const base = '/cities'
 
 const actions = {
-   list: () => async (dispatch, getState) => {
+   list: (_data) => async (dispatch, getState) => {
       const {city} = getState()
-      if (!city.listFetched) {
-         await dispatch({ type: cities.LIST_LOADING_CITY })
-         const {data} = await axios.get(`${base}/list`)
+      if (!city.listFetched || _data) {
+         dispatch({ type: cities.LIST_LOADING_CITY })
+         const {data} = await axios.get(`${base}/list`, {params: {where: _data}})
          showAlert(data.message)
          await dispatch({ type: cities.LIST_CITY, payload: data })
       }

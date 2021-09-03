@@ -20,7 +20,7 @@ export default function StateUpdate() {
          history.push('/states')
       }
       const getCountries = async () => {
-         await dispatch(countryActions.list())
+         await dispatch(countryActions.listAll())
          setValue('country_id', data?.country_id)
       }
       getCountries() //Llenamos el select de países y seteamos country_id si estamos actualizando

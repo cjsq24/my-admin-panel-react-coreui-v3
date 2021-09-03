@@ -24,7 +24,7 @@ const reducer = (state = initialState, { type, ...rest }) => {
          return { ...state, listLoading: true }
 
       case states.FILTER_STATE:
-         state.filter = (rest.payload.success) ? rest.payload.values : []
+         //state.filter = (rest.payload.success) ? rest.payload.values : []
          return { ...state, filterLoading: false }
 
       case states.FILTER_LOADING_STATE:

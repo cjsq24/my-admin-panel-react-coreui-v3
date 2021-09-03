@@ -5,11 +5,11 @@ import { states } from '../actionTypes'
 const base = '/states'
 
 const actions = {   
-   list: () => async (dispatch, getState) => {
+   list: (_data) => async (dispatch, getState) => {
       const {state} = getState()
-      if (!state.listFetched) {
+      if (!state.listFetched || _data) {
          await dispatch({ type: states.LIST_LOADING_STATE })
-         const {data} = await axios.get(`${base}/list`)
+         const {data} = await axios.get(`${base}/list`, {params: {where: _data}})
          showAlert(data.message)
          await dispatch({ type: states.LIST_STATE, payload: data })
       }
@@ -17,8 +17,9 @@ const actions = {
 
    filter: (_data) => async (dispatch) => {
       await dispatch({ type: states.FILTER_LOADING_STATE })
-      const {data} = await axios.get(`${base}/filter`, { params: {..._data}})
+      const {data} = await axios.get(`${base}/list`, { params: {where: _data}})
       await dispatch({ type: states.FILTER_STATE, payload: data })
+      return data
    },
 
 	create: (_data) => async (dispatch) => {
