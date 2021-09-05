@@ -14,6 +14,8 @@ axios.interceptors.response.use(
 				console.log(err.response.data)
 				return err.response
 			}
+			console.log('errrooooooooooor en err')
+			console.log(err)
 			return {
 				data: {
 					success: false,
@@ -22,6 +24,7 @@ axios.interceptors.response.use(
 				}
 			}
 		} catch (e) {
+			console.log('errrooooooooor')
 			return {
 				data: {
 					success: false,

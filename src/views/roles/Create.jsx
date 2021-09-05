@@ -6,16 +6,21 @@ import roleActions from '../../redux/role/action'
 import RoleForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function RoleCreate() {
+export default function RoleCreate(props) {
    const dispatch = useDispatch()
    const history = useHistory()
-   const { register, handleSubmit, formState: {errors} } = useForm();
+   const { register, handleSubmit, reset, formState: {errors} } = useForm();
 
    const onSubmit = async (values, modules) => {
       const res = await dispatch(roleActions.create({...values, modules}))
 
       if (res.success) {
-         history.push('/roles')
+         if (!props?.iamModal) {
+            history.push('/roles')
+         } else {
+            props.iamModalClose(res.values.id)
+            reset()
+         }
       }
    }
 
@@ -27,6 +32,7 @@ export default function RoleCreate() {
             register={register}
             errors={errors}
             action='create'
+            iamModalClose={props?.iamModalClose}
          />
       </CardSimple>
    );

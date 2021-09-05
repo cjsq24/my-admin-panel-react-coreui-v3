@@ -8,11 +8,17 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import Avatar from '../assets/avatars/6.jpg'
+import Avatar from '../assets/avatars/user-image.png'
 import useAuth from '../auth/useAuth';
+import { useHistory } from 'react-router-dom';
 
 const TheHeaderDropdown = () => {
   const auth = useAuth()
+  const history = useHistory()
+
+  const goToProfile = () => {
+    history.push('/profile')
+  }
 
   const logout = () => {
     auth.logout()
@@ -41,7 +47,7 @@ const TheHeaderDropdown = () => {
         >
           <strong>Account</strong>
         </CDropdownItem>
-        <CDropdownItem>
+        {/*<CDropdownItem>
           <CIcon name="cil-bell" className="mfe-2" />
           Updates
           <CBadge color="info" className="mfs-auto">42</CBadge>
@@ -85,8 +91,11 @@ const TheHeaderDropdown = () => {
           <CIcon name="cil-file" className="mfe-2" />
           Projects
           <CBadge color="primary" className="mfs-auto">42</CBadge>
+        </CDropdownItem>*/}
+        <CDropdownItem onClick={goToProfile}>
+          <CIcon name="cil-user" className="mfe-2" />Profile
         </CDropdownItem>
-        <CDropdownItem divider />
+        {/*<CDropdownItem divider />*/}
         <CDropdownItem onClick={logout}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           Logout

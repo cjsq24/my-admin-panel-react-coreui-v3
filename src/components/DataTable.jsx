@@ -1,8 +1,15 @@
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CDataTable, CBadge, CButton, CCol, CRow } from '@coreui/react';
+import ModalChangeStatus from './modals/ModalChangeStatus';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faSearch, faEdit, faBan, faRedoAlt } from '@fortawesome/free-solid-svg-icons'
 
 export default function DataTable(props) {
+   const [modalStatus, setModalStatus] = useState(false);
+   const [dataStatus, setDataStatus] = useState({});
+
    const fields = [
       '#',
       ...props.fields,
@@ -34,26 +41,32 @@ export default function DataTable(props) {
    const showUpdate = (item) => {
       history.push(`/${props.url}/update`, { data: item })
    }
-   const deleteRecord = async (id) => {
-      if (window.confirm("Confirm delete that record?")) {
-         await dispatch(props.actions.delete({ id: id }))
-      }
+   
+   const showChangeStatus = (id, status) => {
+      setModalStatus(true)
+      setDataStatus({id, status})
+   }
+
+   const changeStatus = async () => {
+      await dispatch(props.actions.changeStatus(dataStatus))
    }
 
    return (
       <CCol>
          <CRow>
             <CCol className='d-flex justify-content-end mb-2'>
-               <CButton size='md' color='secondary' className='ml-1 d-flex justify-content' onClick={props.showModal}>
-                  B
+               <CButton size='md' color='secondary' className='mr-1' onClick={props.showModal}>
+                  <FontAwesomeIcon icon={faSearch} />
                </CButton>
-               <CButton size='md' color='success' className='ml-1 d-flex justify-content' onClick={showCreate}>
-                  A
+               <CButton size='md' color='success' className='' onClick={showCreate}>
+                  <FontAwesomeIcon icon={faPlus} />
                </CButton>
             </CCol>
          </CRow>
 
          <CDataTable
+            size='sm'
+            addTableClasses={'datatable'}
             items={props.items.list}
             fields={fields}
             itemsPerPage={10}
@@ -78,20 +91,30 @@ export default function DataTable(props) {
                      </td>
                   ),
                'actions':
-                  (item, index) => {
+                  (item) => {
                      return (
                         <td className="py-2">
                            <CButton size="sm" color="info" onClick={() => showUpdate(item)}>
-                              U
+                              <FontAwesomeIcon icon={faEdit} />
                            </CButton>
-                           <CButton size="sm" color="danger" className="ml-1" onClick={() => deleteRecord(item.id)}>
-                              D
-                           </CButton>
+                           {
+                              item.status === '1' ? (
+                                 <CButton size="sm" color="danger" className="ml-1" onClick={() => showChangeStatus(item.id, item.status)}>
+                                    <FontAwesomeIcon icon={faBan} />
+                                 </CButton>
+                              ) : (
+                                 <CButton size="sm" color="secondary" className="ml-1" onClick={() => showChangeStatus(item.id, item.status)}>
+                                    <FontAwesomeIcon icon={faRedoAlt} />
+                                 </CButton>
+                              )
+                           }
                         </td>
                      )
                   }
             }}
          />
+
+         <ModalChangeStatus show={modalStatus} close={() => setModalStatus(false)} changeStatus={changeStatus} dataStatus={dataStatus} loading={props.items.loading} />
       </CCol>
    );
 }

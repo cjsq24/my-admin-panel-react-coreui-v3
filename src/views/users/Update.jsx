@@ -20,7 +20,7 @@ export default function UserUpdate() {
          history.push('/users')
       }
       const getRoles = async () => {
-         await dispatch(roleActions.list())
+         await dispatch(roleActions.listAll())
          setValue('role_id', data?.role_id)
       }
       getRoles() //Llenamos el select de países y seteamos role_id si estamos actualizando

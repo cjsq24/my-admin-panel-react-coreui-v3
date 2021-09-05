@@ -5,20 +5,20 @@ import { cities } from '../actionTypes'
 const base = '/cities'
 
 const actions = {
-   list: (_data) => async (dispatch, getState) => {
+   list: (_data = {}) => async (dispatch, getState) => {
       const {city} = getState()
-      if (!city.listFetched || _data) {
+      if (!city.listFetched || Object.keys(_data).length > 0) {
          dispatch({ type: cities.LIST_LOADING_CITY })
-         const {data} = await axios.get(`${base}/list`, {params: {where: _data}})
+         const {data} = await axios.get(`${base}/list`, { params: _data })
          showAlert(data.message)
          await dispatch({ type: cities.LIST_CITY, payload: data })
       }
    },
 
-   filter: (_data) => async (dispatch) => {
-      await dispatch({ type: cities.FILTER_LOADING_CITY })
-      const {data} = await axios.get(`${base}/filter`, { params: {..._data}})
-      await dispatch({ type: cities.FILTER_CITY, payload: data })
+   filterByState: (_data = {}) => async (dispatch) => {
+      await dispatch({ type: cities.FILTER_BY_STATE_LOADING_CITY })
+      const {data} = await axios.get(`${base}/list`, { params: _data })
+      await dispatch({ type: cities.FILTER_BY_STATE_CITY, payload: data })
    },
 
 	create: (_data) => async (dispatch) => {
@@ -44,6 +44,16 @@ const actions = {
       await dispatch({ type: cities.LOADING_CITY })
       const {data} = await axios.delete(`${base}/delete/${_data.id}`)
       await dispatch({ type: cities.DELETE_CITY, payload: {...data, ..._data} })
+      await showAlert(data.message)
+      return data;
+	},
+
+   changeStatus: (_data) => async (dispatch) => {
+      await loadingAlert();
+      await dispatch({ type: cities.LOADING_CITY })
+      _data.status = (_data.status === '1') ? '0' : '1'
+      const {data} = await axios.put(`${base}/change-status/${_data.id}`, _data)
+      await dispatch({ type: cities.CHANGE_STATUS_CITY, payload: {...data, ..._data} })
       await showAlert(data.message)
       return data;
 	}

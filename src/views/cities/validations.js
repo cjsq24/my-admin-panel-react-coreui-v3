@@ -10,6 +10,9 @@ const validations = {
    },
    country_id: {
       required: 'Seleccione un país'
+   },
+   state_id: {
+      required: 'Seleccione un estado'
    }
 }
 

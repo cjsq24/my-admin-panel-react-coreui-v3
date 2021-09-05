@@ -11,6 +11,10 @@ const fields = ['id', 'name', 'code', 'country']
 export default function States() {
    const dispatch = useDispatch()
    const state = useSelector(store => store.state)
+   
+   useEffect(() => {
+      dispatch(stateActions.list())
+   }, [dispatch]);
 
    const [modal, setModal] = useState(false);
    const openSearch = () => {
@@ -20,9 +24,6 @@ export default function States() {
       setModal(false)
    }
 
-   useEffect(() => {
-      dispatch(stateActions.list())
-   }, [dispatch]);
 
    return (
       <CardSimple title='States'>

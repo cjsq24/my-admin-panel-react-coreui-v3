@@ -45,6 +45,7 @@ const navigation = async (modules) => {
     if (modules.includes(nav.to.replace('/', ''))) {
       return nav
     }
+    return false
   })
 
   return _nav

@@ -6,18 +6,18 @@ import Select from '../../components/selects/Select'
 import ButtonsModalSearch from '../../components/buttons/ButtonsModalSearch'
 import { setParamsSearch } from '../../helpers/generalFunctions';
 
-import countryActions from '../../redux/country/action'
+import menuActions from '../../redux/menu/action'
 
 const colLabel = 'col-md-2 col-sm-12 col-xs-12'
 const colInput = 'col-md-10 col-sm-12 col-xs-12'
 
-export default function CountrySearch({ modal, closeSearch }) {
+export default function MenuSearch({ modal, closeSearch }) {
    const dispatch = useDispatch()
    const { register, handleSubmit, reset } = useForm();
 
    const onSubmit = async (values) => {
       const params = setParamsSearch(values)
-      await dispatch(countryActions.list(params))
+      await dispatch(menuActions.list(params))
       closeSearch()
    }
 
@@ -36,10 +36,10 @@ export default function CountrySearch({ modal, closeSearch }) {
                </CFormGroup>
                <CFormGroup row>
                   <div className={colLabel}>
-                     <CLabel htmlFor="code">Code</CLabel>
+                     <CLabel htmlFor="url">Url</CLabel>
                   </div>
                   <div className={colInput}>
-                     <InputT name='code' register={register} />
+                     <InputT name='url' register={register} />
                   </div>
                </CFormGroup>
                <CFormGroup row>

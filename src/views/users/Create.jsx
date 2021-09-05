@@ -11,10 +11,10 @@ import CardSimple from '../../components/cards/CardSimple';
 export default function UserCreate() {
    const dispatch = useDispatch()
    const history = useHistory()
-   const { register, handleSubmit, formState: {errors} } = useForm();
+   const { register, handleSubmit, setValue, formState: {errors} } = useForm();
 
    useEffect(() => {
-      dispatch(roleActions.list())
+      dispatch(roleActions.listAll())
    }, [dispatch]);
 
    const onSubmit = async (values) => {
@@ -32,6 +32,7 @@ export default function UserCreate() {
             register={register}
             errors={errors}
             action='create'
+            setValue={setValue}
          />
       </CardSimple>
    );

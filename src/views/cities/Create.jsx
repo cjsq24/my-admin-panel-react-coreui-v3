@@ -11,7 +11,7 @@ import CardSimple from '../../components/cards/CardSimple';
 export default function CityCreate() {
    const dispatch = useDispatch()
    const history = useHistory()
-   const { register, handleSubmit, formState: {errors} } = useForm();
+   const { register, handleSubmit, setValue, getValues, formState: {errors} } = useForm();
 
    useEffect(() => {
       dispatch(countryActions.list())
@@ -29,6 +29,8 @@ export default function CityCreate() {
          <CityForm
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
+            setValue={setValue}
+            getValues={getValues}
             register={register}
             errors={errors}
             action='create'

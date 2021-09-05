@@ -1,4 +1,4 @@
-import { NavLink, useHistory, Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import useAuth from "../auth/useAuth";
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,7 +73,7 @@ export default function Login() {
                               </span>
                               <CRow className="mt-3">
                                  <CCol xs="6">
-                                    <CButton type='submit' color="primary" className="px-4">Login</CButton>
+                                    <CButton type='submit' color="primary" className="px-4" disabled={user.loading}>Login</CButton>
                                  </CCol>
                                  <CCol xs="6" className="text-right">
                                     <CButton color="link" className="px-0">Forgot password?</CButton>

@@ -8,10 +8,10 @@ import countryActions from '../../redux/country/action'
 import StateForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function StateCreate() {
+export default function StateCreate(props) {
    const dispatch = useDispatch()
    const history = useHistory()
-   const { register, handleSubmit, formState: {errors} } = useForm();
+   const { register, handleSubmit, setValue, reset, formState: {errors} } = useForm();
 
    useEffect(() => {
       dispatch(countryActions.listAll())
@@ -20,7 +20,12 @@ export default function StateCreate() {
    const onSubmit = async (values) => {
       const res = await dispatch(stateActions.create(values))
       if (res.success) {
-         history.push('/states')
+         if (!props?.iamModal) {
+            history.push('/states')
+         } else {
+            props?.iamModalClose(res.values)
+            reset()
+         }
       }
    }
 
@@ -29,9 +34,11 @@ export default function StateCreate() {
          <StateForm
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
+            setValue={setValue}
             register={register}
             errors={errors}
             action='create'
+            iamModalClose={props?.iamModalClose}
          />
       </CardSimple>
    );

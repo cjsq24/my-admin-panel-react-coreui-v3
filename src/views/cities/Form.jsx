@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CForm, CFormGroup, CCol, CLabel } from '@coreui/react';
+import { CForm, CFormGroup, CRow, CCol, CModal } from '@coreui/react';
 import InputT from '../../components/inputs/InputT'
 import ButtonForm from '../../components/buttons/ButtonForm'
 import SelectGroup from '../../components/selects/SelectGroup'
+import Label from '../../components/labels/Label'
+import CountryCreate from '../countries/Create'
+import StateCreate from '../states/Create'
 
 import validations from './validations';
 import stateActions from '../../redux/state/action'
 
-const colLabel = 'col-md-1 offset-md-2'
-const colInput = 'col-xs-12 col-md-6'
+const col = 'col-md-6 col-sm-6 col-xs-12'
 
 export default function CityForm(props) {
    const dispatch = useDispatch()
@@ -18,72 +20,104 @@ export default function CityForm(props) {
    const country = useSelector(store => store.country)
 
    const [states, setStates] = useState([])
+   const [modalCreate, setModalCreate] = useState(false)
+   const [modalForm, setModalForm] = useState('')
 
    const getStates = async (country_id) => {
-      const res = await dispatch(stateActions.filter({ country_id: country_id }))
+      const res = await dispatch(stateActions.filterByCountry({ country_id: country_id }))
       if (res?.success) {
          setStates(res.values)
       }
    }
 
+   const closeModalCreateCountry = (country_id = null) => {
+      if (country_id) {
+         props.setValue('country_id', country_id)
+         setStates([])
+      }
+      setModalCreate(false)
+   }
+
+   const closeModalCreateState = async (state) => {
+      if (state) {
+         const { country_id } = props.getValues()
+         if (country_id !== '' && country_id === state.country.id.toString()) {
+            setStates([...states, state])
+            props.setValue('state_id', state.id)
+         } else if (country_id !== state.country.id.toString()) {
+            await getStates(state.country.id)
+            await props.setValue('country_id', state.country.id)
+            props.setValue('state_id', state.id)
+         }
+      }
+      setModalCreate(false)
+   }
+
+   const openModalCreate = (form) => {
+      setModalForm(form)
+      setModalCreate(true)
+   }
+
    return (
-      <CForm onSubmit={props.handleSubmit(props.onSubmit)} autoComplete={'off'}>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="name">Name</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <InputT name='name' placeholder='Enter name' register={props.register} validation={validations} errors={props.errors} />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="code">Code</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <InputT name='code' placeholder='Enter code' register={props.register} validation={validations} errors={props.errors} />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="country_id">Country</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <SelectGroup 
-                  name='country_id' 
-                  data={country.list} 
-                  setLoading={true} 
-                  loading={country.listLoading} 
-                  fields={{value: 'id', string: 'name'}}
-                  onChange={getStates}
-                  register={props.register} 
-                  validations={validations} 
-                  errors={props.errors}
-               />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="state_id">State</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <SelectGroup 
-                  name='state_id' 
-                  data={states} 
-                  setLoading={true} 
-                  loading={state.filterLoading} 
-                  fields={{value: 'id', string: 'name'}}
-                  register={props.register} 
-                  validations={validations} 
-                  errors={props.errors}
-               />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol xs='12' md='9'>
-               <ButtonForm loading={city.loading} action={props.action} url='cities' />
-            </CCol>
-         </CFormGroup>
-      </CForm>
+      <CRow className='justify-content-center'>
+         <CCol md='8' sm='12' xs='12'>
+            <CForm onSubmit={props.handleSubmit(props.onSubmit)} autoComplete={'off'}>
+               <CFormGroup row>
+                  <div className={col}>
+                     <Label title='Name' id='name' validations={validations} />
+                     <InputT name='name' register={props.register} validation={validations} errors={props.errors} />
+                  </div>
+                  <div className={col}>
+                     <Label title='Code' id='code' validations={validations} />
+                     <InputT name='code' register={props.register} validation={validations} errors={props.errors} />
+                  </div>
+               </CFormGroup>
+               <CFormGroup row>
+                  <div className={col}>
+                     <Label title='Country' id='country_id' validations={validations} />
+                     <SelectGroup
+                        name='country_id'
+                        data={country.list}
+                        setLoading={true}
+                        loading={country.listLoading}
+                        fields={{ value: 'id', string: 'name' }}
+                        onChange={getStates}
+                        register={props.register}
+                        validations={validations}
+                        errors={props.errors}
+                        onClick={() => openModalCreate('country')}
+                     />
+                  </div>
+                  <div className={col}>
+                     <Label title='State' id='state_id' validations={validations} />
+                     <SelectGroup
+                        name='state_id'
+                        data={states}
+                        setLoading={true}
+                        loading={state.filterLoading}
+                        fields={{ value: 'id', string: 'name' }}
+                        register={props.register}
+                        validations={validations}
+                        errors={props.errors}
+                        onClick={() => openModalCreate('state')}
+                     />
+                  </div>
+               </CFormGroup>
+               <CFormGroup row>
+                  <CCol>
+                     <ButtonForm loading={city.loading} action={props.action} url='cities' />
+                  </CCol>
+               </CFormGroup>
+            </CForm>
+            <CModal show={modalCreate} onClose={() => setModalCreate(false)} size='xl'>
+               {modalForm === 'country' &&
+                  <CountryCreate iamModal iamModalClose={closeModalCreateCountry} />
+               }
+               {modalForm === 'state' &&
+                  <StateCreate iamModal iamModalClose={closeModalCreateState} />
+               }
+            </CModal>
+         </CCol>
+      </CRow>
    );
 }

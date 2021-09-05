@@ -38,17 +38,21 @@ const reducer = (state = initialState, { type, ...rest }) => {
 
       case cities.UPDATE_CITY:
          if (rest.payload.success) {
-            state.list = state.list.map(item => 
-               item.id === rest.payload.values.id
-               ? { ...item, ...rest.payload.values }
-               : item
-            )
+            const { values } = rest.payload
+            state.list = state.list.map(item => item.id === values.id ? { ...item, ...values } : item)
          }
          return { ...state, ...rest, loading: false }
 
       case cities.DELETE_CITY:
          if (rest.payload.success) {
             state.list = state.list.filter(item => item.id !== rest.payload.id)
+         }
+         return { ...state, ...rest, loading: false }
+
+      case cities.CHANGE_STATUS_CITY:
+         const payload = rest.payload
+         if (payload.success) {
+            state.list = state.list.map(item => item.id === payload.id ? { ...item, status: payload.status } : item)
          }
          return { ...state, ...rest, loading: false }
 

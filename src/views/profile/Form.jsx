@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux';
-import { CForm, CFormGroup, CCol, CLabel, CModal, CRow } from '@coreui/react';
+import { CForm, CFormGroup, CCol, CModal, CRow } from '@coreui/react';
 import InputT from '../../components/inputs/InputT'
 import ButtonForm from '../../components/buttons/ButtonForm'
 import SelectGroup from '../../components/selects/SelectGroup'

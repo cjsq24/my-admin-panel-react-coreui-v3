@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CForm, CFormGroup, CCol, CLabel, CRow, CButton } from '@coreui/react';
+import { CForm, CFormGroup, CCol, CRow, CButton } from '@coreui/react';
 import InputT from '../../components/inputs/InputT'
 import ButtonForm from '../../components/buttons/ButtonForm'
+import Label from '../../components/labels/Label'
 
 import menuActions from '../../redux/menu/action'
 import validations from "./validations";
 
-const colLabel = 'col-md-2 offset-md-1'
-const colInput = 'col-xs-12 col-md-6'
+const col = 'col-md-6 col-sm-6 col-xs-12'
 
 export default function RoleForm(props) {
    const dispatch = useDispatch()
@@ -17,7 +17,7 @@ export default function RoleForm(props) {
    const [selectedMenus, setSelectedMenus] = useState(props.data?.modules ? props.data.modules : [])
 
    useEffect(() => {
-      dispatch(menuActions.list())
+      dispatch(menuActions.listAll())
    }, [dispatch]);
 
    useEffect(() => {
@@ -25,7 +25,7 @@ export default function RoleForm(props) {
          validate: () => Array.isArray(selectedMenus) && selectedMenus.length > 0
       })
    }, [selectedMenus])
-   
+
    const selectMenu = (url) => {
       const modules = selectedMenus
       modules.push(url)
@@ -34,7 +34,7 @@ export default function RoleForm(props) {
 
    const unSelectMenu = (url) => {
       const modules = selectedMenus
-      for (let i = 0; i < modules.length; i ++) {
+      for (let i = 0; i < modules.length; i++) {
          if (modules[i] === url) {
             modules.splice(i, 1);
          }
@@ -47,55 +47,76 @@ export default function RoleForm(props) {
    }
 
    return (
-      <CForm onSubmit={props.handleSubmit((values) => props.onSubmit(values, selectedMenus))} autoComplete={'off'}>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="name">Name</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <InputT name='name' placeholder='Enter name' register={props.register} validation={validations} errors={props.errors} />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol className={colLabel}>
-               <CLabel htmlFor="key_name">Key Name</CLabel>
-            </CCol>
-            <CCol className={colInput}>
-               <InputT name='key_name' placeholder='Enter key name' register={props.register} validation={validations} errors={props.errors} />
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol className={`justify-content-center`}>
-               <CRow>
-                  <CCol className={colLabel}>
-                     <CLabel htmlFor="name">Menú List</CLabel>
-                  </CCol>
-               </CRow>
+      <CRow className='justify-content-center'>
+         <CCol>
+            <CForm onSubmit={props.handleSubmit((values) => props.onSubmit(values, selectedMenus))} autoComplete={'off'}>
                <CRow className='justify-content-center'>
-                  <CCol className='d-flex row justify-content-center col-md-6 align-items-center'>
-                     {menu.list.map(({id, name, url}, key) => (
-                        <div key={id} className='col-md-4 mb-2 d-flex justify-content-center'>
-                           <CButton
-                              color={'info'}
-                              variant={`${checkMenu(url) ? '' : 'outline'}`}
-                              onClick={() => checkMenu(url) ? unSelectMenu(url) : selectMenu(url)}
-                              >
-                              {name}
-                           </CButton>
+                  <CCol md='8' sm='12' xs='12'>
+                     <CFormGroup row>
+                        <div className={col}>
+                           <Label title='Name' id='name' validations={validations} />
+                           <InputT name='name' register={props.register} validation={validations} errors={props.errors} />
                         </div>
-                     ))}
+                        <div className={col}>
+                           <Label title='Key Name' id='key_name' validations={validations} />
+                           <InputT name='key_name' register={props.register} validation={validations} errors={props.errors} />
+                        </div>
+                     </CFormGroup>
                   </CCol>
                </CRow>
-               <CRow className={'justify-content-center col-md-8'}>
-                  <span>{props.errors?.modules && <span className='text-danger'>Select Menus</span>}</span>
-               </CRow>
-            </CCol>
-         </CFormGroup>
-         <CFormGroup row>
-            <CCol xs='12' md='9'>
-               <ButtonForm loading={role.loading} action={props.action} url='roles' />
-            </CCol>
-         </CFormGroup>
-      </CForm>
+               <CFormGroup row>
+                  <CCol>
+                     <CRow className='justify-content-center'>
+                        <CCol className='d-flex row justify-content-center col-md-6 align-items-center'>
+                           <table className="table table-striped table-sm">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Url</th>
+                                    <th scope="col"></th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 {!menu.listAllLoading ? (
+                                    menu.listAll.map(({ name, url }, key) => (
+                                       <tr key={key}>
+                                          <td>{key + 1}</td>
+                                          <td>{name}</td>
+                                          <td>{`/${url}`}</td>
+                                          <td>
+                                             <CButton
+                                                color={'info'}
+                                                variant={`${checkMenu(url) ? '' : 'outline'}`}
+                                                onClick={() => checkMenu(url) ? unSelectMenu(url) : selectMenu(url)}
+                                                style={{width:40, justifyContent:'center', alignItems:'center', padding:0}}
+                                             >
+                                                {`${checkMenu(url) ? 'Yes' : 'No'}`}
+                                             </CButton>
+                                          </td>
+                                       </tr>
+                                    ))
+                                 ) : (
+                                    <tr>
+                                       <td colSpan='4'>Loading Menus...</td>
+                                    </tr>
+                                 )}
+                              </tbody>
+                           </table>
+                        </CCol>
+                     </CRow>
+                     <CRow className={'justify-content-center col-md-8'}>
+                        <span>{props.errors?.modules && <span className='text-danger'>Select Menus</span>}</span>
+                     </CRow>
+                  </CCol>
+               </CFormGroup>
+               <CFormGroup row className='justify-content-center'>
+                  <CCol md='8' sm='12' xs='12'>
+                     <ButtonForm loading={role.loading} action={props.action} url='roles' iamModalClose={props?.iamModalClose} />
+                  </CCol>
+               </CFormGroup>
+            </CForm>
+         </CCol>
+      </CRow>
    );
 }

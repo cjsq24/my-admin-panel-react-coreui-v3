@@ -9,6 +9,8 @@ const messages = {
 	update_failed: { message: 'No se ha podido actualizar el registro', type: 'error' },
 	delete_success: { message: 'Se ha eliminado el registro exitosamente', type: 'success' },
 	delete_failed: { message: 'No se ha podido eliminar el registro', type: 'error' },
+	change_status_success: { message: 'Se ha cambiado el estatus del registro exitosamente', type: 'success' },
+	change_status_failed: { message: 'No se ha podido cambiar el estatus del registro', type: 'error' },
 	list_failed: { message: 'No se han podido obtener los registros', type: 'error' },
 	user_register_success: { message: 'Se ha registrado su usuario exitosamente. Puede iniciar sesión', type: 'success' },
 	user_email_exists: { message: 'Ese email ya está registrado', type: 'error' },

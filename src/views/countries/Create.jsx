@@ -6,15 +6,20 @@ import countryActions from '../../redux/country/action'
 import CountryForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
 
-export default function CountryCreate() {
+export default function CountryCreate(props) {
    const dispatch = useDispatch()
    const history = useHistory()
-   const { register, handleSubmit, formState: {errors} } = useForm();
+   const { register, handleSubmit, formState: {errors}, reset } = useForm();
 
    const onSubmit = async (values) => {
       const res = await dispatch(countryActions.create(values))
       if (res.success) {
-         history.push('/countries')
+         if (!props?.iamModal) {
+            history.push('/countries')
+         } else {
+            props?.iamModalClose(res.values.id)
+            reset()
+         }
       }
    }
 
@@ -26,6 +31,7 @@ export default function CountryCreate() {
             register={register}
             errors={errors}
             action='create'
+            iamModalClose={props?.iamModalClose}
          />
       </CardSimple>
    );

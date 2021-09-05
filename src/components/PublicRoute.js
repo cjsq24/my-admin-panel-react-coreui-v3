@@ -6,7 +6,7 @@ export default function PublicRoute({ component: Component, ...rest }) {
 
    return (
       <Route {...rest}>
-         {!auth.isLogged() ? (
+         {!auth.isLogged() || auth.isLogged() ? (
             <Component {...rest} />
          ) : (
             <Redirect to='/dashboard' />

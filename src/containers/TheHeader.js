@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CHeader,
@@ -15,8 +15,7 @@ import CIcon from '@coreui/icons-react'
 
 import AppBreadcrumb from './AppBreadcrumb'
 
-// routes config
-import routes from '../routes'
+import useAuth from '../auth/useAuth'
 
 import { 
   TheHeaderDropdown,
@@ -24,10 +23,23 @@ import {
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks
 }  from './index'
+import useLocalStorage from 'src/helpers/useLocalStorage'
 
 const TheHeader = () => {
   const dispatch = useDispatch()
   const sidebar = useSelector(state => state.sidebar)
+
+  const [user, setUser] = useState()
+  const [userLocal] = useLocalStorage('cs_user')
+
+  //const { user } = useAuth()
+
+  useEffect(() => {
+    const getUserLocal = async () => {
+      setUser(JSON.parse(await window.localStorage.getItem('cs_user')))
+    }
+    getUserLocal()
+  }, [])
 
   const toggleSidebar = () => {
     const val = [true, 'responsive'].includes(sidebar.show) ? false : 'responsive'
@@ -68,9 +80,10 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <TheHeaderDropdownNotif/>
+        {/*<TheHeaderDropdownNotif/>
         <TheHeaderDropdownTasks/>
-        <TheHeaderDropdownMssg/>
+        <TheHeaderDropdownMssg/>*/}
+        {`${user?.name} ${user?.last_name}`}
         <TheHeaderDropdown/>
       </CHeaderNav>
 

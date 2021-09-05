@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Login from './views/Login'
+import Profile from './views/profile'
 
 //const Login = React.lazy(() => import('./views/Login'))
 const Error404 = React.lazy(() => import('./views/Error404'))
@@ -8,6 +9,7 @@ const Home = React.lazy(() => import('./views/Home'))
 const Dashboard = React.lazy(() => import('./views/Dashboard'))
 const Notes = React.lazy(() => import('./views/notes'))
 
+//const Profile = React.lazy(() => import('./views/profile'))
 const Countries = React.lazy(() => import('./views/countries'))
 const CountryCreate = React.lazy(() => import('./views/countries/Create'))
 const CountryUpdate = React.lazy(() => import('./views/countries/Update'))
@@ -35,6 +37,8 @@ const routes = [
   { path: '/', exact: true, name: 'Dashboard', component: Dashboard, type: 'private' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, type: 'private' },
   { path: '/notes', name: 'Notes', component: Notes, type: 'private' },
+
+  { path: '/profile', name: 'Profile', component: Profile, type: 'public' },
   //COUNTRIES
   { path: '/countries', name: 'Countries', exact: true, component: Countries, type: 'private' },
   { path: '/countries/create', name: 'Create', component: CountryCreate, type: 'private' },

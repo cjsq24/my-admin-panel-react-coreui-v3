@@ -23,11 +23,10 @@ const reducer = (state = initialState, { type, ...rest }) => {
       case states.LIST_LOADING_STATE:
          return { ...state, listLoading: true }
 
-      case states.FILTER_STATE:
-         //state.filter = (rest.payload.success) ? rest.payload.values : []
+      case states.FILTER_BY_COUNTRY_STATE:
          return { ...state, filterLoading: false }
 
-      case states.FILTER_LOADING_STATE:
+      case states.FILTER_BY_COUNTRY_LOADING_STATE:
          return { ...state, filterLoading: true }
 
       case states.CREATE_STATE:
@@ -38,11 +37,8 @@ const reducer = (state = initialState, { type, ...rest }) => {
 
       case states.UPDATE_STATE:
          if (rest.payload.success) {
-            state.list = state.list.map(item => 
-               item.id === rest.payload.values.id
-               ? { ...item, ...rest.payload.values }
-               : item
-            )
+            const { values } = rest.payload
+            state.list = state.list.map(item => item.id === values.id ? { ...item, ...values } : item)
          }
          return { ...state, ...rest, loading: false }
 
@@ -51,6 +47,13 @@ const reducer = (state = initialState, { type, ...rest }) => {
             state.list = state.list.filter(item => item.id !== rest.payload.id)
          }
          return { ...state, ...rest, loading: false }
+
+         case states.CHANGE_STATUS_STATE:
+            const payload = rest.payload
+            if (payload.success) {
+               state.list = state.list.map(item => item.id === payload.id ? { ...item, status: payload.status } : item)
+            }
+            return { ...state, ...rest, loading: false }
          
       default:
          return { ...state };
