@@ -15,7 +15,9 @@ const messages = {
 	user_register_success: { message: 'Se ha registrado su usuario exitosamente. Puede iniciar sesión', type: 'success' },
 	user_email_exists: { message: 'Ese email ya está registrado', type: 'error' },
 	login_success: { message: 'Bienvenid@', type: 'success' },
-	login_failed: { message: 'Usuario y/o contraseña incorrecta', type: 'error' }
+	login_failed: { message: 'Usuario y/o contraseña incorrecta', type: 'error' },
+	update_profile_success: { message: 'Se ha actualizado tu perfil', type: 'success' },
+	update_profile_failed: { message: 'No hemos podido actualizar tu perfil', type: 'error' },
 }
 
 const props = {

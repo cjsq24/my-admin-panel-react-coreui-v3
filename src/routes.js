@@ -38,7 +38,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, type: 'private' },
   { path: '/notes', name: 'Notes', component: Notes, type: 'private' },
 
-  { path: '/profile', name: 'Profile', component: Profile, type: 'public' },
+  { path: '/profile', name: 'Profile', component: Profile, type: 'private' },
   //COUNTRIES
   { path: '/countries', name: 'Countries', exact: true, component: Countries, type: 'private' },
   { path: '/countries/create', name: 'Create', component: CountryCreate, type: 'private' },

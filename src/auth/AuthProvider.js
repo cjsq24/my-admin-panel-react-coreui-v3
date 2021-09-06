@@ -13,7 +13,7 @@ export default function AuthProvider({children}) {
    
    useEffect(() => {
       const getModules = async () => {
-         if (user) {
+         if (user && user?.token) {
             const { modules: modulesToken } = await jwt.verify(user?.token, process.env.REACT_APP_SECRET_TOKEN)
             //console.log('modules', JSON.parse(modulesToken))
             if (modules) {

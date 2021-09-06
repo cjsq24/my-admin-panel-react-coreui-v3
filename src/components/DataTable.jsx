@@ -17,7 +17,7 @@ export default function DataTable(props) {
       {
          key: 'actions',
          label: '',
-         _style: { width: '15%' },
+         //_style: { width: '15%' },
          sorter: false,
          filter: false
       }
