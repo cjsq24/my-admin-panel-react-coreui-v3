@@ -8,8 +8,6 @@ export default function AuthProvider({children}) {
    const [userLocal, setUserLocal] = useLocalStorage('cs_user')
    const [user, setUser] = useState(userLocal || null)
    const [modules, setModules] = useState([])
-
-   console.log('userrrrrrr', user)
    
    useEffect(() => {
       const getModules = async () => {
@@ -27,7 +25,6 @@ export default function AuthProvider({children}) {
       }
       getModules()
       setUserLocal(user)
-      console.log('Actualizamos')
    }, [user])
 
    const contextValue = {
@@ -44,7 +41,6 @@ export default function AuthProvider({children}) {
          return !!user
       },
       updateUserInfo(data) {
-         console.log('updateUserInfo')
          setUser(data)
          setUserLocal(data)
       }

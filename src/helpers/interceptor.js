@@ -8,14 +8,10 @@ axios.interceptors.response.use(
 	},
 	async function(err) {
 		try {
-			console.log('entramos')
 			if (err?.response?.data && err?.response?.data?.message) {
-				console.log('dentro')
 				console.log(err.response.data)
 				return err.response
 			}
-			console.log('errrooooooooooor en err')
-			console.log(err)
 			return {
 				data: {
 					success: false,
@@ -24,7 +20,6 @@ axios.interceptors.response.use(
 				}
 			}
 		} catch (e) {
-			console.log('errrooooooooor')
 			return {
 				data: {
 					success: false,
@@ -43,7 +38,7 @@ axios.interceptors.request.use(async function (config) {
 	if (user?.token) {
 		config.headers.Authorization = `Bearer ${user.token}`
 	} else {
-		console.log('no hay token')
+		//console.log('no hay token')
 	}
 	return config;
 }, function (error) {

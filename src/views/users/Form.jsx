@@ -55,7 +55,7 @@ export default function UserForm(props) {
                         validations={validations}
                         errors={props.errors}
                         onClick={() => setModalCreate(true)}
-                     />
+                        />
                   </div>
                </CFormGroup>
                <CFormGroup row>
@@ -68,6 +68,7 @@ export default function UserForm(props) {
          <CModal show={modalCreate} onClose={() => setModalCreate(false)} size='lg'>
             <RoleCreate iamModal iamModalClose={closeModalCreate} />
          </CModal>
+         <small>Si modificas el rol de tu usuario, recuerda que debes reiniciar sesión para que se apliquen los cambios</small>
       </CRow>
    );
 }
