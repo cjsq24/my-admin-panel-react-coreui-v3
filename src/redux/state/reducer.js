@@ -5,8 +5,8 @@ const initialState = {
    payload: {},
    listFetched: false,
    listLoading: false,
-   filter: [],
-   filterLoading: false,
+   listByCountry: [],
+   listByCountryLoading: false,
    loading: false
 };
 
@@ -23,11 +23,15 @@ const reducer = (state = initialState, { type, ...rest }) => {
       case states.LIST_LOADING_STATE:
          return { ...state, listLoading: true }
 
-      case states.FILTER_BY_COUNTRY_STATE:
-         return { ...state, filterLoading: false }
+      case states.LIST_BY_COUNTRY_STATE:
+         state.listByCountry = (rest.payload.success) ? rest.payload.values : []
+         return { ...state, listByCountryLoading: false }
 
-      case states.FILTER_BY_COUNTRY_LOADING_STATE:
-         return { ...state, filterLoading: true }
+      case states.LIST_BY_COUNTRY_LOADING_STATE:
+         return { ...state, listByCountryLoading: true }
+
+      case states.RESET_LIST_BY_STATE:
+         return { ...state, listByCountry: [] }
 
       case states.CREATE_STATE:
          if (rest.payload.success) {
@@ -44,7 +48,7 @@ const reducer = (state = initialState, { type, ...rest }) => {
 
       case states.DELETE_STATE:
          if (rest.payload.success) {
-            state.list = state.list.filter(item => item.id !== rest.payload.id)
+            state.list = state.list.list(item => item.id !== rest.payload.id)
          }
          return { ...state, ...rest, loading: false }
 

@@ -19,21 +19,17 @@ export default function CityForm(props) {
    const state = useSelector(store => store.state)
    const country = useSelector(store => store.country)
 
-   const [states, setStates] = useState([])
    const [modalCreate, setModalCreate] = useState(false)
    const [modalForm, setModalForm] = useState('')
 
    const getStates = async (country_id) => {
-      const res = await dispatch(stateActions.filterByCountry({ country_id: country_id }))
-      if (res?.success) {
-         setStates(res.values)
-      }
+      await dispatch(stateActions.listByCountry({ country_id: country_id }))
    }
 
    const closeModalCreateCountry = (country_id = null) => {
       if (country_id) {
          props.setValue('country_id', country_id)
-         setStates([])
+         dispatch(stateActions.resetListBy())
       }
       setModalCreate(false)
    }
@@ -42,7 +38,7 @@ export default function CityForm(props) {
       if (state) {
          const { country_id } = props.getValues()
          if (country_id !== '' && country_id === state.country.id.toString()) {
-            setStates([...states, state])
+            await dispatch(stateActions.listByCountry({}, state))
             props.setValue('state_id', state.id)
          } else if (country_id !== state.country.id.toString()) {
             await getStates(state.country.id)
@@ -74,6 +70,16 @@ export default function CityForm(props) {
                </CFormGroup>
                <CFormGroup row>
                   <div className={col}>
+                     <Label title='Latitude' id='latitude' validations={validations} />
+                     <InputT name='latitude' register={props.register} validation={validations} errors={props.errors} />
+                  </div>
+                  <div className={col}>
+                     <Label title='Longitude' id='longitude' validations={validations} />
+                     <InputT name='longitude' register={props.register} validation={validations} errors={props.errors} />
+                  </div>
+               </CFormGroup>
+               <CFormGroup row>
+                  <div className={col}>
                      <Label title='Country' id='country_id' validations={validations} />
                      <SelectGroup
                         name='country_id'
@@ -92,9 +98,9 @@ export default function CityForm(props) {
                      <Label title='State' id='state_id' validations={validations} />
                      <SelectGroup
                         name='state_id'
-                        data={states}
+                        data={state.listByCountry}
                         setLoading={true}
-                        loading={state.filterLoading}
+                        loading={state.listByCountryLoading}
                         fields={{ value: 'id', string: 'name' }}
                         register={props.register}
                         validations={validations}

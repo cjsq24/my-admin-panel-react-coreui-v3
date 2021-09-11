@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import cityActions from '../../redux/city/action'
+import stateActions from '../../redux/state/action'
 import countryActions from '../../redux/country/action'
 import CityForm from './Form';
 import CardSimple from '../../components/cards/CardSimple';
@@ -15,6 +16,7 @@ export default function CityCreate() {
 
    useEffect(() => {
       dispatch(countryActions.list())
+      dispatch(stateActions.resetListBy())
    }, [dispatch]);
 
    const onSubmit = async (values) => {

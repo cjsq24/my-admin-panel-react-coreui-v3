@@ -15,12 +15,6 @@ const actions = {
       }
    },
 
-   filterByState: (_data = {}) => async (dispatch) => {
-      await dispatch({ type: cities.FILTER_BY_STATE_LOADING_CITY })
-      const {data} = await axios.get(`${base}/list`, { params: _data })
-      await dispatch({ type: cities.FILTER_BY_STATE_CITY, payload: data })
-   },
-
 	create: (_data) => async (dispatch) => {
       await loadingAlert();
       await dispatch({ type: cities.LOADING_CITY })

@@ -5,8 +5,6 @@ const initialState = {
    payload: {},
    listFetched: false,
    listLoading: false,
-   filter: [],
-   filterLoading: false,
    loading: false
 };
  
@@ -22,13 +20,6 @@ const reducer = (state = initialState, { type, ...rest }) => {
 
       case cities.LIST_LOADING_CITY:
          return { ...state, listLoading: true }
-
-      case cities.FILTER_CITY:
-         state.filter = (rest.payload.success) ? rest.payload.values : []
-         return { ...state, filterLoading: false }
-
-      case cities.FILTER_LOADING_CITY:
-         return { ...state, filterLoading: true }
 
       case cities.CREATE_CITY:
          if (rest.payload.success) {

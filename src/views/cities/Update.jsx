@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -22,7 +22,8 @@ export default function CityUpdate() {
       }
       const getSetSelect = async () => {
          await dispatch(countryActions.list())
-         await dispatch(stateActions.filter({country_id: data?.state.country_id}))
+         await dispatch(stateActions.listByCountry({country_id: data?.state.country_id}))
+         
          setValue('country_id', data?.state.country_id)
          setValue('state_id', data?.state.id)
       }

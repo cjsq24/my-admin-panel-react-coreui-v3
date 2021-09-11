@@ -15,11 +15,21 @@ const actions = {
       }
    },
 
-   filterByCountry: (_data = {}) => async (dispatch) => {
-      await dispatch({ type: states.FILTER_BY_COUNTRY_LOADING_STATE })
-      const {data} = await axios.get(`${base}/list`, { params: _data })
-      await dispatch({ type: states.FILTER_BY_COUNTRY_STATE, payload: data })
-      return data
+   listByCountry: (_data = {}, state = null) => async (dispatch, getState) => {
+      if (!state) {
+         await dispatch({ type: states.LIST_BY_COUNTRY_LOADING_STATE })
+         const {data} = await axios.get(`${base}/list`, { params: _data })
+         await dispatch({ type: states.LIST_BY_COUNTRY_STATE, payload: data })
+      } else if (Object.keys(state).length > 0) {
+         await dispatch({ type: states.LIST_BY_COUNTRY_LOADING_STATE })
+         const { listByCountry } = getState().state
+         listByCountry.push(state)
+         await dispatch({ type: states.LIST_BY_COUNTRY_STATE, payload: {success: true, values: listByCountry} })
+      }
+   },
+
+   resetListBy: () => async (dispatch) => {
+      dispatch({ type: states.RESET_LIST_BY_STATE })
    },
 
 	create: (_data) => async (dispatch) => {
