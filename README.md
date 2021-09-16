@@ -7,37 +7,34 @@
 ## Table of Contents
 
 * [Installation](#installation)
-* [Basic usage](#create-react-app)
+* [Basic usage](#basic_usage)
+* [.env File](#env)
+* [Repo Backend](#repo_backend)
 
 ## Installation
 
-### Clone repo
+### Basic Usage
 
 ``` bash
 # clone the repo
-$ git clone https://github.com/cjsq24/my-admin-panel-react-coreui-v3 my-project
-
-# go into app's directory
-$ cd my-project
+$ git clone https://github.com/cjsq24/my-admin-panel-react-coreui-v3
 
 # install app's dependencies
 $ npm install
-```
 
-### Basic usage
-
-``` bash
 # dev server with hot reload at http://localhost:3000
 $ npm start
 ```
 
-Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
+## .env File:
 
-### Build
+- REACT_APP_API_URL_BASE=https://node-js-testing-backend.herokuapp.com/api
+- REACT_APP_SECRET_TOKEN=cs_9d4nagd_t
+- PORT=3000
+- CHOKIDAR_USEPOLLING=true
 
-Run `build` to build the project. The build artifacts will be stored in the `build/` directory.
-
-```bash
-# build for production with minification
-$ npm run build
+## Repo Backend
+``` bash
+# clone the repo
+$ git clone https://github.com/cjsq24/node-testing
 ```
